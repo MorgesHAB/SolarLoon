@@ -1,17 +1,24 @@
 /*
 Original code by : https://github.com/Snootlab/lora_chisterapi
-Edited by : Ramin Sangesari
+Edited by : Philippe Rochat & Lionel Isoz
 */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
-
 #include <RH_RF95.h>
+#include <iostream>
+#include <string>
+#include <fstream>
+
+using namespace std;
 
 RH_RF95 rf95;
 
 int run = 1;
+
+bool First_Time_1 = true
+bool First_Time_2 = true
 
 /* Signal the end of the software */
 void sigint_handler(int signal)
@@ -42,7 +49,53 @@ void setup()
 void readMHPacket(uint8_t *buf) {
 	printf(">>Node: %u, Type: %u, Lenght: %u, Content: %s\n", buf[0], buf[1], buf[2], &buf[3]);
 
-    // ENCORE TOUT L?ASPECT receiving DATA MANAGEMENT 
+    // The received DATA MANAGEMENT :
+
+    ofstream fichier("SolarLoon.kml", ios::out | ios::app);  // write in mode append
+
+    if(fichier)
+    {
+            if (First_Time_1 == true)
+            {
+                // Move in the file to the right place
+                fichier.seekp(120, ios::end)  // (nbr bytes, start point)
+            }
+            if (buf[1] == 2) 
+            {
+                fichier << "\n" << &buf[3] << ",";
+            }
+            else (buf[1] == 3) 
+            {
+                fichier << &buf[3] << ",";
+            }
+            else (buf[1] == 4) 
+            {
+                fichier << &buf[3];
+            }
+
+            fichier.close();
+    }
+    else
+            cerr << "Impossible d'ouvrir le fichier !" << endl;
+
+    // But we also want to record all the messages received during the launch,
+    // So GPS Data and Captor Data together
+    ofstream fichier2("All_received_messages.txt", ios::out | ios::app);  // write in mode append
+
+    if(fichier2)
+    {
+        if (First_Time_2 == true) 
+        {
+            fichier2 << "ALl the received messages during the flight : \n"
+            First_Time_2 = false
+        }
+
+        fichier2 << &buf[3] << "\n";    
+                    
+        fichier2.close();
+    }
+    else
+            cerr << "Impossible d'ouvrir le fichier !" << endl;
 }
 
 

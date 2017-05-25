@@ -37,12 +37,12 @@ while True :
                  # We have to change the type of GPS Data in structure type
                  GPSTIME = str(report.time)
                  SPEED = str(report.speed)
-                 LONGITUDE = str(report.lon)
                  LATITUDE = str(report.lat)
+                 LONGITUDE = str(report.lon)
                  ALTITUDE = str(report.alt)
                  # We send the GPS Data to the programme C++ how send the message by radio
                  # Warning, the order GPSTIME, SPEED, ... plays a role 
-         	       subprocess.call(["./chisterapi", GPSTIME, SPEED, LONGITUDE, LATITUDE, ALTITUDE])
+         	       subprocess.call(["./chisterapi", GPSTIME, SPEED, LATITUDE, LONGITUDE, ALTITUDE])
                Nbr_GPS_Data +=1
              
 

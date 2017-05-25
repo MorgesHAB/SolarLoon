@@ -1,3 +1,7 @@
+/*
+Original code by : https://github.com/Snootlab/lora_chisterapi
+Edited by : Philippe Rochat & Lionel Isoz
+*/
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,16 +14,17 @@ RH_RF95 rf95;
 
 #define GPSTIME 0
 #define SPEED 1
-#define ALTITUDE 2
+#define LATITUDE 2
 #define LONGITUDE 3
-#define LATITUDE 4
+#define ALTITUDE 4
+
+#define msg_Temperature 0
+#define msg_Pressure 0
+#define msg_Humidity 0
 
 #define NODE_NUMBER 8
 // string NODE_NUMBER = "MorgesHAB"
 
-/* The address of the node which is 10 by default */
-//uint8_t node_number = 12;
-//uint8_t msg[2] = {10, 0};
 uint8_t msg[200];
 
 int run = 1;
@@ -27,9 +32,6 @@ int run = 1;
 /* Send a message every 3 seconds */
 void sigalarm_handler(int signal)
 {
-   // msg[0] = node_number;
-  //  msg[1]++;
-
    rf95.send(msg, sizeof(msg));
    rf95.waitPacketSent();
 //   printf("Sent!\n");
@@ -38,22 +40,24 @@ void sigalarm_handler(int signal)
 
 /* Compose a message to be sent in a MorgesHabPacket : MHPacket */
 /*Syntax is:
-	byte 0: node number
-	byte 1: msg type
-	byte 2: msg length (max 200-4)
-	byte 3 & ... : ASCII encoded value, null terminated
+  byte 0: node number
+  byte 1: msg type
+  byte 2: msg length (max 200-4)
+  byte 3 & ... : ASCII encoded value, null terminated
 */
 void writeMHPacket(uint8_t type, char *m) {
-	msg[0] = NODE_NUMBER;
-	msg[1] = type;
-	msg[2] = (uint8_t)strlen(m);
-	strcpy((char *)&msg[3], m); // We should use strncpy !!!!
+  msg[0] = NODE_NUMBER;
+  msg[1] = type;
+  msg[2] = (uint8_t)strlen(m);
+  strcpy((char *)&msg[3], m); // We should use strncpy !!!!
 }
 
 /* get content from such a packet ... */
+/*
 void readMHPacket(uint8_t *msg) {
-	printf(">>Node: %u, Type: %u, Length: %u, Content: %s\n", msg[0], msg[1], msg[2], &msg[3]);
-}
+  printf(">>Node: %u, Type: %u, Length: %u, Content: %s\n", msg[0], msg[1], msg[2], &msg[3]);
+} 
+*/
 
 /* Signal the end of the software */
 void sigint_handler(int signal)
@@ -80,15 +84,8 @@ void setup() {
      rf95.setFrequency(868.0); /* Mhz */
 }
 
-void loop()
-{
-}
-
 int main(int argc, char **argv)
 {
-   // if( argc == 2 )
-     //   node_number = atoi(argv[1]);
-
     signal(SIGINT, sigint_handler);
     signal(SIGALRM, sigalarm_handler);
 
@@ -96,19 +93,12 @@ int main(int argc, char **argv)
 
     setup();
 
-   /*  while( run )
-    {
-        loop();
-        usleep(1);
-    } */
-
-
-	// i will run through GPSTIME, SPEED, ...
-	for(int i = 1; i<argc; i++) { // Skip 0 which is program itself
-		writeMHPacket(i-1, argv[i]);
-		sigalarm_handler(1); // Fake a signal
-		readMHPacket(&msg[0]);
-	}
+  // i will run through GPSTIME, SPEED, LATITUDE, LONGITUDE, ALTITUDE
+  for(int i = 1; i<argc; i++) { // Skip 0 which is program itself
+    writeMHPacket(i-1, argv[i]);
+    sigalarm_handler(1); // Fake a signal
+    readMHPacket(&msg[0]);
+  }
 
     return EXIT_SUCCESS;
 }
