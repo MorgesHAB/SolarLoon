@@ -1,9 +1,9 @@
-SolarLoon_Software \n
-Edited by Lionel Isoz \n
-For the MorgesHAB project \n
-https://morgeshab.wordpress.com/  \n
+SolarLoon_Software  
+Edited by Lionel Isoz  
+For the MorgesHAB project  
+https://morgeshab.wordpress.com/  
 
-*** If you never touch a raspberry Pi --> explications at the end  \n
+*** If you never touch a raspberry Pi --> explications at the end  
 
 So first activate the differents communications protocols :
 
@@ -46,9 +46,11 @@ For the GPS LoRa Hat :
 Source : http://wiki.dragino.com/index.php?title=Getting_GPS_to_work_on_Raspberry_Pi_2_Model_B
 
 Enable the UART :
-By default the UART is enabled to allow you to connect a terminal window and login, We needed to disable this to free it up for the GPS Module. Edit the boot options to change the UART so it doesnt provide a terminal connection by default: 
+By default the UART is enabled to allow you to connect a terminal window and login,  
+We needed to disable this to free it up for the GPS Module.  
+Edit the boot options to change the UART so it doesnt provide a terminal connection by default:  
+	
 	sudo nano /boot/cmdline.txt 
-
 
 Change: 
 	
