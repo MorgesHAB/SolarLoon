@@ -3,6 +3,25 @@ Edited by Lionel Isoz
 For the MorgesHAB project  
 https://morgeshab.wordpress.com/  
 
+Hi,  
+These repository is used for the MorgesHAB project, a high altitude balloon project.  
+These programmes would be used to measure the temperature, the humidity and the pressure in the stratosphere. We will also have use a GPS LoRa Hat how would record the GPS coordinates and send it by radio.  
+A raspicam module V2 is also aboard.  
+Check your wbsite for more informations --> https://morgeshab.wordpress.com/  
+
+So if you want to do the same, here is the instructions :  
+For the Hardware, you will need :  
+
+	Raspbery Pi 0
+	SD card (32GB)
+	DHT22
+	BMP180
+	DS18B20
+	raspicam 
+	LoRa GPS Hat
+	Display, mouse, keyboard
+	internet connection
+
 *** If you never touch a raspberry Pi --> explications at the end  
 
 So first activate the differents communications protocols :
@@ -15,7 +34,7 @@ Activate 1-wire, SPI, I2C and the camera, in interfacing options
 write :
 	
 	dtparam=i2c_arm=on
-	dtoverlay=w1-gpio,gpiopin=21  #changer le 1-wire à la pin 40 (GPIO21)
+	dtoverlay=w1-gpio,gpiopin=21  # change the 1-wire to the pin 40 (GPIO21)
 Save :
 	
 	Ctl+X , Y , Enter
@@ -113,9 +132,9 @@ Go in root :
 	
 	sudo su -
 
-Edited the crontab :
+Edited the crontab (If it's the first time choose the open's mode, take the mode 2)
 	
-	crontab -e (2)
+	crontab -e 
 
 Add these lignes to the cron at the end of the file :
 
@@ -155,6 +174,23 @@ Then install the librairy in GitHub :
 
 And Now it's finish !
 
+---------------------------------------------------------------------
 
-*** If you never touch a raspberry Pi, I will explain you from the start
-So fisrt, we need to install a operating system.
+*** If you never touch a raspberry Pi, I will explain you from the start  
+So fisrt, we need to install a operating system.  
+I recommend to use Raspbian Jessie Lite  
+This one --> https://www.raspberrypi.org/downloads/raspbian/  
+Now unzip it and write the file.img on the SD card (use Win32 disk imager for example)  
+Next connect a display, a mouse, a keyboard and put on the electrical cable (5V)  
+The Raspberry Pi will start and if all right, you will have to put the user name and the password  
+
+	user name : pi
+	password : raspberry
+
+Warning, if your keyboard is in qwertz you will have to put "raspberrz" for the password  
+To change it :
+	
+	sudo raspi-config
+	Localisations options
+	Change keyboard layout
+	choose your keyboard
