@@ -1,7 +1,11 @@
-SolarLoon_Software
-Edited by Lionel Isoz
-For the MorgesHAB project
-https://morgeshab.wordpress.com/
+SolarLoon_Software \n
+Edited by Lionel Isoz \n
+For the MorgesHAB project \n
+https://morgeshab.wordpress.com/  \n
+
+*** If you never touch a raspberry Pi --> explications at the end  \n
+
+So first activate the differents communications protocols :
 
 	sudo raspi-config
 
@@ -79,11 +83,11 @@ Then :
 
 Run gpsd :
 
-sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
+	sudo gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
 
 Or :
 
-sudo bash /home/pi/SolarLoon_Software/GPS/ACTIVATE_GPS.sh
+	sudo bash /home/pi/SolarLoon_Software/GPS/ACTIVATE_GPS.sh
 
 You can test if you receive GPS with (Go outside ! ;-):
 	
@@ -151,4 +155,4 @@ And Now it's finish !
 
 
 *** If you never touch a raspberry Pi, I will explain you from the start
-So fisrt, we need to install a exploitation system
+So fisrt, we need to install a operating system.
