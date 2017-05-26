@@ -110,11 +110,14 @@ def readBmp180(addr=DEVICE):
 
 
 try :
-  os.chdir("/home/pi/SolarLoon_Software/LoRa_Sending_DATA") # Go to the sender data folder 
+  # Go to the sender data folder 
+  os.chdir("/home/pi/SolarLoon_Software/LoRa_Sending_Data") 
 	time.sleep(1)
-	# The function readBmp180() bring the Data of the BMP180 under the variable's name of 
-    (temperature,pressure) = readBmp180()
-	msg_Pressure = str(pressure+" hPa")
+	# The function readBmp180() bring the Data of the BMP180 
+  #under the variable's name of 
+  (temperature,pressure) = readBmp180()
+  PRESSURE = str(pressure)
+	msg_Pressure = str(PRESSURE+" hPa")
  	subprocess.call(["./chisterapi", msg_Pressure])  
 
 except KeyboardInterrupt :

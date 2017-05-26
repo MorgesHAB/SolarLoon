@@ -17,8 +17,10 @@ RH_RF95 rf95;
 
 int run = 1;
 
-bool First_Time_1 = true
-bool First_Time_2 = true
+bool First_Time_1 = true;
+bool First_Time_2 = true;
+bool Check_if_all_msg = false;
+int Nbr_received_DATA = 0;
 
 /* Signal the end of the software */
 void sigint_handler(int signal)
@@ -60,17 +62,38 @@ void readMHPacket(uint8_t *buf) {
                 // Move in the file to the right place
                 fichier.seekp(120, ios::end);  // (nbr bytes, start point)
             }
-            if (buf[1] == 2) 
+            // We want to check if we have received all the GPS informations before
+            // recording into file.kml ! 
+            if (Check_if_all_msg == false)
             {
-                fichier << "\n" << &buf[3] << ",";
-            }
-            else (buf[1] == 3) 
+                if (buf[1] == 2)
+                {
+                    Nbr_received_DATA +=1;
+                    LATITUDE = &buf[3];
+                }
+                if (buf[1] == 3)
+                {
+                    Nbr_received_DATA +=1;
+                    LONGITUDE = &buf[3];
+                }
+                if (buf[1] == 4)
+                {
+                    Nbr_received_DATA +=1;
+                    ALTITUDE = &buf[3];
+                }
+                if (Nbr_received_DATA == 3)
+                {
+                    Check_if_all_msg == true;
+                    Nbr_received_DATA = 0;
+                }
+                if (Nbr_received_DATA != 3)
+                {
+                    Nbr_received_DATA = 0;
+                }
+            if (Check_if_all_msg == true)
             {
-                fichier << &buf[3] << ",";
-            }
-            else (buf[1] == 4) 
-            {
-                fichier << &buf[3];
+                fichier << "\n" << LATITUDE << "," << LONGITUDE << "," << ALTITUDE;
+                Check_if_all_msg == false;
             }
 
             fichier.close();

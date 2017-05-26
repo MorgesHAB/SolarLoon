@@ -35,8 +35,10 @@ def read_temp():
         return temp_c
 
 try :
-    os.chdir("/home/pi/SolarLoon_Software/LoRa_Sending_DATA") # Go to the sender data folder 
-    msg_Temperature = str(read_temp()+" °C")
+    # Go to the sender data folder 
+    os.chdir("/home/pi/SolarLoon_Software/LoRa_Sending_Data")
+    TEMPERATURE = str(read_temp())
+    msg_Temperature = TEMPERATURE+" °C"
     subprocess.call(["./chisterapi", msg_Temperature])  
 
 except KeyboardInterrupt:

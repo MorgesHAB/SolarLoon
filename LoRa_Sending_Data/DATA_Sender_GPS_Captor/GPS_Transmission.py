@@ -27,13 +27,16 @@ while True :
          if FIRST_TIME :
  	          subprocess.call(["./chisterapi", " Data are comming !"])
             FIRST_TIME = False
-         os.chdir("/home/pi/SolarLoon_Software/LoRa_Sending_DATA") # Go to the sender data folder 
+         # Go to the sender data folder 
+         os.chdir("/home/pi/SolarLoon_Software/LoRa_Sending_Data") 
          report = session.next()
          # The GPS takes GPS data every secondes, so we send only the GPS data
          # every "x" secondes
          if report['class'] == 'TPV':
-             if hasattr(report, 'time' and 'speed' and 'lon' and 'lat' and 'alt'):  # if there's GPS time data
-               if Nbr_GPS_Data % Time_between_each_recorded_data == 0 : # % = the rest of the division
+             # if there's GPS time data
+             if hasattr(report, 'time' and 'speed' and 'lon' and 'lat' and 'alt'):  
+               # Select only the wanted data
+               if Nbr_GPS_Data % Time_between_each_recorded_data == 0 :
                  # We have to change the type of GPS Data in structure type
                  GPSTIME = str(report.time)
                  SPEED = str(report.speed)
