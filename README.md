@@ -3,24 +3,25 @@ Edited by Lionel Isoz
 For the MorgesHAB project  
 https://morgeshab.wordpress.com/  
 
-Hi,  
+Hi eveyryone,  
 These repository is used for the MorgesHAB project, a high altitude balloon project.  
 These programmes would be used to measure the temperature, the humidity and the pressure in the stratosphere. We will also have use a GPS LoRa Hat how would record the GPS coordinates and send it by radio.  
 A raspicam module V2 is also aboard.  
-Check your wbsite for more informations --> https://morgeshab.wordpress.com/  
+Check our website for more informations --> https://morgeshab.wordpress.com/  
 
-So if you want to do the same, here is the instructions :  
+So if you want to do the same as us, here is the instructions :  
 For the Hardware, you will need :  
 
 	Raspbery Pi 0
 	SD card (32GB)
-	DHT22
-	BMP180
-	DS18B20
-	raspicam 
-	LoRa GPS Hat
-	Display, mouse, keyboard
-	internet connection
+	DHT22 (Humidity & temperature captor)
+	BMP180 (Pressure & temperature captor)
+	DS18B20 (Temperature captor)
+	Raspicam V2 (Warning: connection to Pi0)
+	2 LoRa GPS Hat (sender & receiver)
+	Battery (outpout 5V)
+	Monitpor, mouse, keyboard
+	Internet connection (RJ45-USB adapter)
 
 *** If you never touch a raspberry Pi --> explications at the end  
 
@@ -29,6 +30,7 @@ So first activate the differents communications protocols :
 	sudo raspi-config
 
 Activate 1-wire, SPI, I2C and the camera, in interfacing options 
+And modify this file :
 	
 	sudo nano /boot/config.txt
 write :
@@ -37,8 +39,8 @@ write :
 	dtoverlay=w1-gpio,gpiopin=21  # change the 1-wire to the pin 40 (GPIO21)
 Save :
 	
-	Ctl+X , Y , Enter
-Then :
+	Ctl+X --> Y --> Enter
+Then 
 	
 	sudo reboot
 
@@ -132,7 +134,7 @@ Go in root :
 	
 	sudo su -
 
-Edited the crontab (If it's the first time choose the open's mode, take the mode 2)
+Edited the crontab (If it's the first time, choose the open's mode, take the mode 2)
 	
 	crontab -e 
 
@@ -146,7 +148,7 @@ Add these lignes to the cron at the end of the file :
 	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/LoRa_Sending_Data/DATA_Sender_GPS_Captor/Pressure_Transmission.py
 	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/LoRa_Sending_Data/DATA_Sender_GPS_Captor/Temperature_Transmission.py
 
-Then activate script on the boot :
+Then modify this file to activate script on the boot :
 	
 	sudo nano /etc/rc.local
 
@@ -180,8 +182,8 @@ And Now it's finish !
 So fisrt, we need to install a operating system.  
 I recommend to use Raspbian Jessie Lite  
 This one --> https://www.raspberrypi.org/downloads/raspbian/  
-Now unzip it and write the file.img on the SD card (use Win32 disk imager for example)  
-Next connect a display, a mouse, a keyboard and put on the electrical cable (5V)  
+When you have donwloaded it, unzip it and write the file.img on the SD card (use Win32 disk imager for example)  
+Next connect a monitor (with the HDMI port), a mouse, a keyboard and put on the electrical cable (5V)  
 The Raspberry Pi will start and if all right, you will have to put the user name and the password  
 
 	user name : pi
