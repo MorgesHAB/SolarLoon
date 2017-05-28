@@ -48,7 +48,8 @@ void setup()
     rf95.setFrequency(868.0); /* MHz */
 }
 
-void readMHPacket(uint8_t *buf) {
+void readMHPacket(uint8_t *buf)
+{
 	printf(">>Node: %u, Type: %u, Lenght: %u, Content: %s\n", buf[0], buf[1], buf[2], &buf[3]);
 
     // The received DATA MANAGEMENT :
@@ -69,21 +70,21 @@ void readMHPacket(uint8_t *buf) {
                 if (buf[1] == 2)
                 {
                     Nbr_received_DATA +=1;
-                    LATITUDE = &buf[3];
+                    double LONGITUDE = &buf[3];
                 }
                 if (buf[1] == 3)
                 {
                     Nbr_received_DATA +=1;
-                    LONGITUDE = &buf[3];
+                    double LATITUDE = &buf[3];
                 }
                 if (buf[1] == 4)
                 {
                     Nbr_received_DATA +=1;
-                    ALTITUDE = &buf[3];
+                    double ALTITUDE = &buf[3];
                 }
                 if (Nbr_received_DATA == 3)
                 {
-                    Check_if_all_msg == true;
+                    Check_if_all_msg = true;
                     Nbr_received_DATA = 0;
                 }
                 if (Nbr_received_DATA != 3)
@@ -92,8 +93,8 @@ void readMHPacket(uint8_t *buf) {
                 }
             if (Check_if_all_msg == true)
             {
-                fichier << "\n" << LATITUDE << "," << LONGITUDE << "," << ALTITUDE;
-                Check_if_all_msg == false;
+                fichier << "\n" << LONGITUDE << "," << LATITUDE << "," << ALTITUDE;
+                Check_if_all_msg = false;
             }
 
             fichier.close();
@@ -102,6 +103,7 @@ void readMHPacket(uint8_t *buf) {
     {
             cerr << "Impossible d'ouvrir le fichier !" << endl;
     }
+
     // But we also want to record all the messages received during the launch,
     // So GPS Data and Captor Data together
     ofstream fichier2("All_received_messages.txt", ios::out | ios::app);  // write in mode append
@@ -110,8 +112,8 @@ void readMHPacket(uint8_t *buf) {
     {
         if (First_Time_2 == true) 
         {
-            fichier2 << "ALl the received messages during the flight : \n"
-            First_Time_2 = false
+            fichier2 << "ALl the received messages during the flight : \n";
+            First_Time_2 = false;
         }
 
         fichier2 << &buf[3] << "\n";    

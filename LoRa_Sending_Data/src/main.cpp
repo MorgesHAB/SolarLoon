@@ -14,8 +14,8 @@ RH_RF95 rf95;
 
 #define GPSTIME 0
 #define SPEED 1
-#define LATITUDE 2
-#define LONGITUDE 3
+#define LONGITUDE 2
+#define LATITUDE 3
 #define ALTITUDE 4
 
 #define msg_Temperature 0
@@ -93,7 +93,7 @@ int main(int argc, char **argv)
 
     setup();
 
-  // i will run through GPSTIME, SPEED, LATITUDE, LONGITUDE, ALTITUDE
+  // i will run through GPSTIME, SPEED, LONGITUDE, LATITUDE, ALTITUDE
   for(int i = 1; i<argc; i++) { // Skip 0 which is program itself
     writeMHPacket(i-1, argv[i]);
     sigalarm_handler(1); // Fake a signal
