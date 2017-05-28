@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<kml xmlns="http://earth.google.com/kml/2.1">
+<Document id="aprs">
+<Style id="t1658546">
+  <LabelStyle><color>ffa8ff00</color><scale>0.75</scale></LabelStyle>
+  <IconStyle>
+    <Icon>
+      <href>files/sym/f24/p4fp4f.png</href>
+    </Icon>
+  <scale>0.75</scale>
+  </IconStyle>
+  <LineStyle>
+    <color>ff00ff00</color>
+    <colorMode>normal</colorMode>
+    <width>2</width>
+  </LineStyle>
+  <PolyStyle><color>7f00ff00</color></PolyStyle>
+</Style>
+<Placemark>
+  <name>HB9IAC-11</name>
+  <description><![CDATA[
+<a href='http://aprs.fi/?call=HB9IAC-11'>[click here to track on aprs.fi]</a><br />
+2016-06-22 09:36:05z<br />
+6 km/h
+ 201°
+ 626 m
+<br />
+<span style='color:#0a7100; font-style:italic;'>www.swiss-strato.com</span><br />
+<span style='color:#b400ff; font-style:italic;'>MicroTrak FA v1.42</span><br />
+[from ]<br />
+
+]]></description>
+  <Snippet maxLines='2'>www.swiss-strato.com MicroTrak FA v1.42(6 km/h)</Snippet>
+  <styleUrl>#t1658546</styleUrl>
+  <MultiGeometry>
+  <Point>
+  <altitudeMode>absolute</altitudeMode>
+    <coordinates>7.43500,47.17667,625.75</coordinates>
+  </Point>
+  <LineString>
+    <tessellate>1</tessellate>
+    <extrude>1</extrude>
+    <altitudeMode>absolute</altitudeMode>
+    <coordinates>
+ 
+
+   </coordinates>
+  </LineString>
+  </MultiGeometry>
+</Placemark>
+</Document>
+</kml>
