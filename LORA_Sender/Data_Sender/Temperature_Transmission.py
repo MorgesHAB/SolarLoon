@@ -36,7 +36,7 @@ def read_temp():
 
 try :
     # Go to the sender data folder 
-    os.chdir("/home/pi/SolarLoon_Software/LoRa_Sending_Data")
+    os.chdir("/home/pi/SolarLoon_Software/LORA_Sender")
     TEMPERATURE = str(read_temp())
     msg_Temperature = TEMPERATURE+" °C"
     subprocess.call(["./chisterapi", msg_Temperature])  

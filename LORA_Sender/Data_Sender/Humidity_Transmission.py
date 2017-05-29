@@ -18,7 +18,7 @@ GPIO.setup(GPIO_PIN,GPIO.IN)
 
 try :
 	# Go to the sender data folder 
-	os.chdir("/home/pi/SolarLoon_Software/LoRa_Sending_Data") 
+	os.chdir("/home/pi/SolarLoon_Software/LORA_Sender") 
 	time.sleep(2)
 	# The Adafruit_DHT librairy bring the Data of the DHT22 under the variable's name of 
 	humidity, temperature = Adafruit_DHT.read_retry(DHTSensor, GPIO_PIN)

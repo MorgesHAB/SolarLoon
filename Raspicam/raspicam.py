@@ -32,7 +32,7 @@ camera=picamera.PiCamera()
 try :
 	while Nbr_Pictures < Nbr_Pictures_per_Minute :
 		 # Now we have the Data, we record the temperature and the humidity on file.txt
-		 os.chdir("/home/pi/SolarLoon_Software/Cam/Data_Photos")  # Go to the recorded photos folder 
+		 os.chdir("/home/pi/SolarLoon_Software/Raspicam/Data_Photos")  # Go to the recorded photos folder 
 		 random_number = str(randrange(999)) # ***
 		 # We will name the picture with the time when the pictures is taking
 		 Time_picture = str(time.strftime('%H%M%S'))

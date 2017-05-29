@@ -111,7 +111,7 @@ def readBmp180(addr=DEVICE):
 
 try :
   # Go to the sender data folder 
-  os.chdir("/home/pi/SolarLoon_Software/LoRa_Sending_Data") 
+  os.chdir("/home/pi/SolarLoon_Software/LORA_Sender")
 	time.sleep(1)
 	# The function readBmp180() bring the Data of the BMP180 
   #under the variable's name of 

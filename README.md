@@ -128,6 +128,17 @@ Now you have done all the configurations, install all the software :
 
 	sudo git clone https://github.com/MorgesHAB/SolarLoon_Software/
 
+Now you have to compile some programmes so go in this directory 
+
+	cd /home/pi/SolarLoon_Software/LORA_Sender
+	make
+If there isn't something to make, 
+
+	sudo nano /src/main.cpp 
+	Enter , Ctrl X , Y, Enter 
+	cd .. 
+	make
+
 Then activate all the programmes :
 
 Go in root :
@@ -143,10 +154,13 @@ Add these lignes to the cron at the end of the file :
 	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/Captor/BMP180.py
 	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/Captor/DHT22.py
 	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/Captor/DS18B20_GPS.py
+	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/GPS/GPS_RECORDER.py
 	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/Raspicam/raspicam.py
-	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/LoRa_Sending_Data/DATA_Sender_GPS_Captor/Humidity_Transmission.py
-	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/LoRa_Sending_Data/DATA_Sender_GPS_Captor/Pressure_Transmission.py
-	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/LoRa_Sending_Data/DATA_Sender_GPS_Captor/Temperature_Transmission.py
+	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/LORA_Sender/Data_Sender/Humidity_Transmission.py
+	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/LORA_Sender/Data_Sender/Pressure_Transmission.py
+	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/LORA_Sender/Data_Sender/Temperature_Transmission.py
+    */1  *  *  *  *  python /home/pi/SolarLoon_Software/LORA_Sender/Data_Sender/GPS_Transmission.py
+
 
 Then modify this file to activate script on the boot :
 	
@@ -154,25 +168,8 @@ Then modify this file to activate script on the boot :
 
 Add these lignes juste befor the "exit 0":
 
-	sudo bash /home/pi/SolarLoon_Software/GPS/ACTIVATE_GPS.sh
-	sudo python /home/pi/SolarLoon_Software/GPS/GPS_RECORDER.py
-	sudo python /home/pi/SolarLoon_Software/LoRa_Sending_Data/DATA_Sender_GPS_Captor/GPS_Transmission.py
+	sudo bash   /home/pi/SolarLoon_Software/GPS/ACTIVATE_GPS.sh
 	sudo python /home/pi/SolarLoon_Software/RTC_Pi0_GPS/RTC_Pi0_GPS.py
-
-maybe 
-	
-	sudo ./home/pi/SolarLoon_Software/LoRa_Sending_Data/chisterapi
-
-For the DHT22 we still need a librairy :
-Go the the right direction :
-	
-	cd home/pi/SolarLoon_Software/Captor/
-
-Then install the librairy in GitHub :
-	
-	git clone https://github.com/adafruit/Adafruit_Python_DHT.git 
-	cd Adafruit_Python_DHT/
-	sudo python setup.py install  
 
 And Now it's finish !
 
