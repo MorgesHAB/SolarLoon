@@ -56,11 +56,11 @@ void readMHPacket(uint8_t *buf)
     // The received DATA MANAGEMENT :
 
     ofstream fichier("SolarLoon.kml", ios::out | ios::app);  // write in mode append
-	if(!fd = fopen("SolarLoon.kml")) {
+	//if(!fd = fopen("SolarLoon.kml")) {
 		// crashing error
-		perror("Could not open file")
+		//perror("Could not open file")
 		
-	}
+	//}
 
     if(fichier)
     {
@@ -100,8 +100,8 @@ void readMHPacket(uint8_t *buf)
                 }
             if (Check_if_all_msg == true)
             {
-                fichier << "\n" << LONGITUDE << "," << LATITUDE << "," << ALTITUDE;
-				fprintf(fd, "%s", longitude);
+                fichier << "\n" << longitude << "," << LATITUDE << "," << ALTITUDE;
+				//fprintf(fd, "%s", longitude);
                 Check_if_all_msg = false;
             }
 
