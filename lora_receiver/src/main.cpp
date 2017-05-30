@@ -63,13 +63,13 @@ void readMHPacket(uint8_t *buf)
     if (Nbr_received_DATA < 3) {
       	if (buf[1] == 2) {// If data type at octer 2 is of type 2 (aka LONGITUDE)
           	Nbr_received_DATA +=1;
-			strcpy(longitude, &buf[3]); // Copy buf into global var to be kept until we have the 3
+			strcpy(longitude, (char *)&buf[3]); // Copy buf into global var to be kept until we have the 3
        	} else if (buf[1] == 3) { // If data type at octer 2 is of type 3 (aka LATITUDE)
             Nbr_received_DATA +=1;
-			strcpy(latitude, &buf[3]);
+			strcpy(latitude, (char *)&buf[3]);
         } else if (buf[1] == 4) { // If data type at octer 2 is of type 4 (aka ALTITUDE)
             Nbr_received_DATA +=1;
-			strcpy(altitude, &buf[3]);
+			strcpy(altitude, (char *)&buf[3]);
         } 
 	} else {
 		Nbr_received_DATA = 0; // Reset type counter
