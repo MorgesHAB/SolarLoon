@@ -4,12 +4,12 @@ Edited by : Philippe Rochat & Lionel Isoz
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <unistd.h> // C++, not a good id
 #include <signal.h>
 #include <RH_RF95.h>
-#include <iostream>
-#include <string>
-#include <fstream>
+#include <iostream> // ... to comment out too
+#include <string> // Idem 
+#include <fstream> // idem
 
 using namespace std;
 
@@ -50,11 +50,17 @@ void setup()
 
 void readMHPacket(uint8_t *buf)
 {
+	char *longitude = NULL;
 	printf(">>Node: %u, Type: %u, Lenght: %u, Content: %s\n", buf[0], buf[1], buf[2], &buf[3]);
 
     // The received DATA MANAGEMENT :
 
     ofstream fichier("SolarLoon.kml", ios::out | ios::app);  // write in mode append
+	if(!fd = fopen("SolarLoon.kml")) {
+		// crashing error
+		perror("Could not open file")
+		
+	}
 
     if(fichier)
     {
@@ -70,7 +76,8 @@ void readMHPacket(uint8_t *buf)
                 if (buf[1] == 2)
                 {
                     Nbr_received_DATA +=1;
-                    string LONGITUDE = &buf[3];
+					longitude = (char *)&buf[3];
+                    //string LONGITUDE = &buf[3];
                 }
                 if (buf[1] == 3)
                 {
@@ -94,6 +101,7 @@ void readMHPacket(uint8_t *buf)
             if (Check_if_all_msg == true)
             {
                 fichier << "\n" << LONGITUDE << "," << LATITUDE << "," << ALTITUDE;
+				fprintf(fd, "%s", longitude);
                 Check_if_all_msg = false;
             }
 
