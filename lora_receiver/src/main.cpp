@@ -76,18 +76,18 @@ void readMHPacket(uint8_t *buf)
                 if (buf[1] == 2)
                 {
                     Nbr_received_DATA +=1;
-					longitude = (char *)&buf[3];
-                    //string LONGITUDE = &buf[3];
+					//longitude = (char *)&buf[3];
+                    string LONGITUDE = new String(&buf[3]);
                 }
                 if (buf[1] == 3)
                 {
                     Nbr_received_DATA +=1;
-                    string LATITUDE = &buf[3];
+                    string LATITUDE = newString(&buf[3]);
                 }
                 if (buf[1] == 4)
                 {
                     Nbr_received_DATA +=1;
-                    string ALTITUDE = &buf[3];
+                    string ALTITUDE = new String(&buf[3]);
                 }
                 if (Nbr_received_DATA == 3)
                 {
