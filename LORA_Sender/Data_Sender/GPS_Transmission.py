@@ -50,7 +50,7 @@ while Nbr_GPS_Data < 60 :
                       Nbr_received_DATA +=1
                     if report.lon :
                       LONGITUDE = str(report.lon)
-                      Nbr_GPS_Data +=1
+                      Nbr_received_DATA +=1
                     if report.lat :
                       LATITUDE = str(report.lat)
                       Nbr_received_DATA +=1
@@ -62,10 +62,11 @@ while Nbr_GPS_Data < 60 :
                       Nbr_received_DATA = 0
                     if Nbr_received_DATA != 5 :
                       Nbr_received_DATA = 0
-                 if Check_if_all_msg == True :
-                    # We send the GPS Data to the programme C++ how send the message by radio
-                    # Warning, the order GPSTIME, SPEED, ... plays a role 
-                    subprocess.call(["./chisterapi", GPSTIME, SPEED, LONGITUDE, LATITUDE, ALTITUDE])
+                    if Check_if_all_msg == True :
+                      # We send the GPS Data to the programme C++ how send the message by radio
+                      # Warning, the order GPSTIME, SPEED, ... plays a role 
+                      subprocess.call(["./chisterapi", GPSTIME, SPEED, LONGITUDE, LATITUDE, ALTITUDE])
+                      Check_if_all_msg = False
                Nbr_GPS_Data +=1
              
 
