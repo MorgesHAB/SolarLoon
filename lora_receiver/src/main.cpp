@@ -75,7 +75,7 @@ void readMHPacket(uint8_t *buf)
 		Nbr_received_DATA = 0; // Reset type counter
 		if(!fd = fopen("SolarLoon.kml", "a")) { // Open file descriptor to append into
 			// crashing error --- would be cleaner with perror()
-			printf("File opening for w ERROR !")
+			printf("File opening for w ERROR !\n");
 			//exit(1);
 		} else { 
 			fprintf(fd, "%s, %s, %s", longitude, latitude, atltitude); // Write the collection
