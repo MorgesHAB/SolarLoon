@@ -62,6 +62,8 @@ try :
                   if Nbr_received_DATA == 5 :
                     Check_if_all_msg = True
                     Nbr_received_DATA = 0
+                  if Nbr_received_DATA != 5 :
+                      Nbr_received_DATA = 0
                 if Check_if_all_msg == True :
                    with open("Time.txt","a") as fichier :
                       print >> fichier, GPSTIME     # record time on file.txt

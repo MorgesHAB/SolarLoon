@@ -70,17 +70,17 @@ void readMHPacket(uint8_t *buf)
                 if (buf[1] == 2)
                 {
                     Nbr_received_DATA +=1;
-                    LONGITUDE = string &buf[3];
+                    string LONGITUDE = &buf[3];
                 }
                 if (buf[1] == 3)
                 {
                     Nbr_received_DATA +=1;
-                    LATITUDE = string &buf[3];
+                    string LATITUDE = &buf[3];
                 }
                 if (buf[1] == 4)
                 {
                     Nbr_received_DATA +=1;
-                    ALTITUDE = string &buf[3];
+                    string ALTITUDE = &buf[3];
                 }
                 if (Nbr_received_DATA == 3)
                 {

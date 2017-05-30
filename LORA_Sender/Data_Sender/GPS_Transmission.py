@@ -29,8 +29,8 @@ while Nbr_GPS_Data < 60 :
          # Go to the sender data folder 
          os.chdir("/home/pi/SolarLoon_Software/LORA_Sender")
          if FIRST_TIME :
- 	          subprocess.call(["./chisterapi", " Data are comming !"])
-            FIRST_TIME = False
+          subprocess.call(["./chisterapi", " Data are comming !"])
+          FIRST_TIME = False
          report = session.next()
          # The GPS takes GPS data every secondes, so we send only the GPS data
          # every "x" secondes
@@ -41,7 +41,7 @@ while Nbr_GPS_Data < 60 :
                if Nbr_GPS_Data % Time_between_each_recorded_data == 0 :
                  # We want to be sure that we receive all the GPS data !
                  # We will have to change the type of GPS Data in structure type
-                 if Check_if_all_msg == false :
+                 if Check_if_all_msg == False :
                     if report.time :
                       GPSTIME = str(report.time)
                       Nbr_received_DATA +=1
@@ -60,7 +60,9 @@ while Nbr_GPS_Data < 60 :
                     if Nbr_received_DATA == 5 :
                       Check_if_all_msg = True
                       Nbr_received_DATA = 0
-                  if Check_if_all_msg == True :
+                    if Nbr_received_DATA != 5 :
+                      Nbr_received_DATA = 0
+                 if Check_if_all_msg == True :
                     # We send the GPS Data to the programme C++ how send the message by radio
                     # Warning, the order GPSTIME, SPEED, ... plays a role 
                     subprocess.call(["./chisterapi", GPSTIME, SPEED, LONGITUDE, LATITUDE, ALTITUDE])
