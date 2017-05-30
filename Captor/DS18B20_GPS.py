@@ -55,7 +55,7 @@ try :
     #print(read_temp())       # print the temperature in terminal
 	# Now we have the Data, we record the temperature and the humidity on file.txt
     # Go to the recorded data folder 
-    os.chdir("/home/pi/SolarLoon_Software/Captor/Data_Captor")  
+    os.chdir("/SolarLoon_Software/Captor/Data_Captor")  
 	with open("DS18B20_Temperature.txt","a") as fichier :
         print >> fichier, read_temp()         # record temperature on file.txt
     # We want to record the Pi0 time when a DS18B20 data is recorded
@@ -70,7 +70,7 @@ try :
   while NBr_GPS_Altitude_Data and Nbr_GPS_Time_Data < 60 :
     report = session.next()   # Wait the next TPV report
     # Go to the recorded data folder 
-	os.chdir("/home/pi/SolarLoon_Software/Captor/Data_Captor")  
+	os.chdir("/SolarLoon_Software/Captor/Data_Captor")  
     if report['class'] == 'TPV':
         if hasattr(report, 'alt'):    # if there's GPS altitude data
             if NBr_GPS_Altitude_Data % Time_between_each_recorded_data == 0 :  # % = the rest of the division
