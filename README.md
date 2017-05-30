@@ -151,15 +151,15 @@ Edited the crontab (If it's the first time, choose the open's mode, take the mod
 
 Add these lignes to the cron at the end of the file :
 
-	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/Captor/BMP180.py
-	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/Captor/DHT22.py
-	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/Captor/DS18B20_GPS.py
-	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/GPS/GPS_RECORDER.py
-	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/Raspicam/raspicam.py
-	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/LORA_Sender/Data_Sender/Humidity_Transmission.py
-	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/LORA_Sender/Data_Sender/Pressure_Transmission.py
-	*/1  *  *  *  *  python /home/pi/SolarLoon_Software/LORA_Sender/Data_Sender/Temperature_Transmission.py
-    */1  *  *  *  *  python /home/pi/SolarLoon_Software/LORA_Sender/Data_Sender/GPS_Transmission.py
+	*/1  *  *  *  *  python /SolarLoon_Software/Captor/BMP180.py
+	*/1  *  *  *  *  python /SolarLoon_Software/Captor/DHT22.py
+	*/1  *  *  *  *  python /SolarLoon_Software/Captor/DS18B20_GPS.py
+	*/1  *  *  *  *  python /SolarLoon_Software/GPS/GPS_RECORDER.py
+	*/1  *  *  *  *  python /SolarLoon_Software/Raspicam/raspicam.py
+	*/1  *  *  *  *  python /SolarLoon_Software/LORA_Sender/Data_Sender/Humidity_Transmission.py
+	*/1  *  *  *  *  python /SolarLoon_Software/LORA_Sender/Data_Sender/Pressure_Transmission.py
+	*/1  *  *  *  *  python /SolarLoon_Software/LORA_Sender/Data_Sender/Temperature_Transmission.py
+    */1  *  *  *  *  python /SolarLoon_Software/LORA_Sender/Data_Sender/GPS_Transmission.py
 
 
 Then modify this file to activate script on the boot :
