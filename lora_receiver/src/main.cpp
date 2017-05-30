@@ -18,6 +18,8 @@ char longitude[256];
 char latitude[256];
 char altitude[256];
 
+bool First_Time = true;
+
 /* Signal the end of the software */
 void sigint_handler(int signal)
 {
@@ -87,7 +89,7 @@ void readMHPacket(uint8_t *buf)
 		}
 	}
 
-  FILE2 *fd2; // File descriptor
+  FILE *fd2; // File descriptor
 
   if(!(fd2 = fopen("All_received_messages.txt", "a"))) // Open file descriptor to append into
     { 
@@ -97,8 +99,15 @@ void readMHPacket(uint8_t *buf)
     } 
     else 
     { 
+      if (First_Time == true)
+      {
+        fprintf(fd2, "ALl the received messages during the flight : \n" );
+        First_Time = false;
+
+      }
       fprintf(fd2, "\n%s", &buf[3]); // Write the collection
       fclose(fd2);
+    }
 }
 
 
