@@ -4,14 +4,9 @@ Edited by : Philippe Rochat & Lionel Isoz
 */
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h> // C++, not a good id
+#include <unistd.h>
 #include <signal.h>
 #include <RH_RF95.h>
-#include <iostream> // ... to comment out too
-#include <string> // Idem 
-#include <fstream> // idem
-
-using namespace std;
 
 RH_RF95 rf95;
 
@@ -51,37 +46,59 @@ void setup()
 
 void readMHPacket(uint8_t *buf)
 {
-
-	FILE *fd; // File descriptor
-	
 	printf(">>Node: %u, Type: %u, Lenght: %u, Content: %s\n", buf[0], buf[1], buf[2], &buf[3]);
 
-    // The received DATA MANAGEMENT :
-   
-  
-    // Collect data until we have a collection of the 3 types needed
-    if (Nbr_received_DATA < 3) {
-      	if (buf[1] == 2) {// If data type at octer 2 is of type 2 (aka LONGITUDE)
-          	Nbr_received_DATA +=1;
-			strcpy(longitude, (char *)&buf[3]); // Copy buf into global var to be kept until we have the 3
-       	} else if (buf[1] == 3) { // If data type at octer 2 is of type 3 (aka LATITUDE)
-            Nbr_received_DATA +=1;
-			strcpy(latitude, (char *)&buf[3]);
-        } else if (buf[1] == 4) { // If data type at octer 2 is of type 4 (aka ALTITUDE)
-            Nbr_received_DATA +=1;
-			strcpy(altitude, (char *)&buf[3]);
-        } 
-	} else {
+  // The received DATA MANAGEMENT :
+
+  FILE *fd; // File descriptor
+  // Collect data until we have a collection of the 3 types needed
+  if (Nbr_received_DATA < 3) 
+  {
+      // If data type at octer 2 is of type 2 (aka LONGITUDE)
+    	if (buf[1] == 2) 
+      {
+        	Nbr_received_DATA +=1;
+		      strcpy(longitude, (char *)&buf[3]); // Copy buf into global var to be kept until we have the 3
+     	} 
+      else if (buf[1] == 3) // If data type at octer 2 is of type 3 (aka LATITUDE)
+      { 
+          Nbr_received_DATA +=1;
+		      strcpy(latitude, (char *)&buf[3]);
+      } 
+      else if (buf[1] == 4) // If data type at octer 2 is of type 4 (aka ALTITUDE)
+      { 
+          Nbr_received_DATA +=1;
+		      strcpy(altitude, (char *)&buf[3]);
+      } 
+	} 
+  else 
+  {
 		Nbr_received_DATA = 0; // Reset type counter
-		if(!(fd = fopen("SolarLoon.kml", "a"))) { // Open file descriptor to append into
+		if(!(fd = fopen("SolarLoon.kml", "a"))) // Open file descriptor to append into
+    { 
 			// crashing error --- would be cleaner with perror()
 			printf("File opening for w ERROR !\n");
 			//exit(1);
-		} else { 
-			fprintf(fd, "%s, %s, %s", longitude, latitude, altitude); // Write the collection
+		} 
+    else 
+    { 
+			fprintf(fd, "\n%s, %s, %s", longitude, latitude, altitude); // Write the collection
 			fclose(fd);
 		}
 	}
+
+  FILE2 *fd2; // File descriptor
+
+  if(!(fd2 = fopen("All_received_messages.txt", "a"))) // Open file descriptor to append into
+    { 
+      // crashing error --- would be cleaner with perror()
+      printf("File opening for w ERROR !\n");
+      //exit(1);
+    } 
+    else 
+    { 
+      fprintf(fd2, "\n%s", &buf[3]); // Write the collection
+      fclose(fd2);
 }
 
 
