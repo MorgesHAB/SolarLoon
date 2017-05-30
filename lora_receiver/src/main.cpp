@@ -17,10 +17,11 @@ RH_RF95 rf95;
 
 int run = 1;
 
-bool First_Time_1 = true;
-bool First_Time_2 = true;
-bool Check_if_all_msg = false;
-int Nbr_received_DATA = 0;
+int Nbr_received_DATA = 0; // Global var to cound collected data types (when complete, we have the 3 types)
+// Global string vars to store the data (a collection of 3 positioning elements)
+char longitude[256]; 
+char latitude[256];
+char altitude[256];
 
 /* Signal the end of the software */
 void sigint_handler(int signal)
@@ -50,88 +51,37 @@ void setup()
 
 void readMHPacket(uint8_t *buf)
 {
-	char *longitude = NULL;
+
+	FILE *fd; // File descriptor
+	
 	printf(">>Node: %u, Type: %u, Lenght: %u, Content: %s\n", buf[0], buf[1], buf[2], &buf[3]);
 
     // The received DATA MANAGEMENT :
-
-    ofstream fichier("SolarLoon.kml", ios::out | ios::app);  // write in mode append
-	//if(!fd = fopen("SolarLoon.kml")) {
-		// crashing error
-		//perror("Could not open file")
-		
-	//}
-
-    if(fichier)
-    {
-            if (First_Time_1 == true)
-            {
-                // Move in the file to the right place
-                fichier.seekp(120, ios::end);  // (nbr bytes, start point)
-            }
-            // We want to check if we have received all the GPS informations before
-            // recording into file.kml ! 
-            if (Check_if_all_msg == false)
-            {
-                if (buf[1] == 2)
-                {
-                    Nbr_received_DATA +=1;
-					//longitude = (char *)&buf[3];
-                    string LONGITUDE = new string((char *)&buf[3]);
-                }
-                if (buf[1] == 3)
-                {
-                    Nbr_received_DATA +=1;
-                    string LATITUDE = new string((char *)&buf[3]);
-                }
-                if (buf[1] == 4)
-                {
-                    Nbr_received_DATA +=1;
-                    string ALTITUDE = new string((char *)&buf[3]);
-                }
-                if (Nbr_received_DATA == 3)
-                {
-                    Check_if_all_msg = true;
-                    Nbr_received_DATA = 0;
-                }
-                if (Nbr_received_DATA != 3)
-                {
-                    Nbr_received_DATA = 0;
-                }
-            if (Check_if_all_msg == true)
-            {
-                fichier << "\n" << longitude << "," << LATITUDE << "," << ALTITUDE;
-				//fprintf(fd, "%s", longitude);
-                Check_if_all_msg = false;
-            }
-
-            fichier.close();
-    }
-    else
-    {
-            cerr << "Impossible d'ouvrir le fichier !" << endl;
-    }
-
-    // But we also want to record all the messages received during the launch,
-    // So GPS Data and Captor Data together
-    ofstream fichier2("All_received_messages.txt", ios::out | ios::app);  // write in mode append
-
-    if(fichier2)
-    {
-        if (First_Time_2 == true) 
-        {
-            fichier2 << "ALl the received messages during the flight : \n";
-            First_Time_2 = false;
-        }
-
-        fichier2 << &buf[3] << "\n";    
-                    
-        fichier2.close();
-    }
-    else
-    {
-            cerr << "Impossible d'ouvrir le fichier !" << endl;
-    }
+   
+  
+    // Collect data until we have a collection of the 3 types needed
+    if (Nbr_received_DATA < 3) {
+      	if (buf[1] == 2) {// If data type at octer 2 is of type 2 (aka LONGITUDE)
+          	Nbr_received_DATA +=1;
+			strcpy(longitude, &buf[3]); // Copy buf into global var to be kept until we have the 3
+       	} else if (buf[1] == 3) { // If data type at octer 2 is of type 3 (aka LATITUDE)
+            Nbr_received_DATA +=1;
+			strcpy(latitude, &buf[3]);
+        } else if (buf[1] == 4) { // If data type at octer 2 is of type 4 (aka ALTITUDE)
+            Nbr_received_DATA +=1;
+			strcpy(altitude, &buf[3]);
+        } 
+	} else {
+		Nbr_received_DATA = 0; // Reset type counter
+		if(!fd = fopen("SolarLoon.kml", "a")) { // Open file descriptor to append into
+			// crashing error --- would be cleaner with perror()
+			printf("File opening for w ERROR !")
+			//exit(1);
+		} else { 
+			fprintf(fd, "%s, %s, %s", longitude, latitude, atltitude); // Write the collection
+			fclose(fd);
+		}
+	}
 }
 
 
