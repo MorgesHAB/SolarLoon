@@ -12,7 +12,7 @@ import RPi.GPIO as GPIO
 Nbr_GPS_Data = 0
 
 # Define the number of Data you want to record in 1 min
-Nbr_Data_per_Minute = 12
+Nbr_Data_per_Minute = 6
 Time_between_each_recorded_data = int(60 / Nbr_Data_per_Minute)  # 60 because 1 min
 
 # As we don't see if the camera is capturing a photo, we will 
@@ -34,7 +34,7 @@ try :
      report = session.next()   # Wait the next TPV report
      # Uncomment the next line to see all the data on the TPV report
      #print report
-     os.chdir("/SolarLoon_Software/GPS/GPS_DATA") # Go to the recorded data folder 
+     os.chdir("/home/pi/SolarLoon_Software/GPS/GPS_DATA") # Go to the recorded data folder 
      # The GPS takes GPS data every secondes, so we take only the GPS data
      # every "x" secondes
      if report['class'] == 'TPV':

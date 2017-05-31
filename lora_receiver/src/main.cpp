@@ -84,7 +84,7 @@ void readMHPacket(uint8_t *buf)
 		} 
     else 
     { 
-			fprintf(fd, "\n%s, %s, %s", longitude, latitude, altitude); // Write the collection
+			fprintf(fd, "\n%s,%s,%s", longitude, latitude, altitude); // Write the collection
 			fclose(fd);
 		}
 	}
@@ -94,7 +94,7 @@ void readMHPacket(uint8_t *buf)
   if(!(fd2 = fopen("All_received_messages.txt", "a"))) // Open file descriptor to append into
     { 
       // crashing error --- would be cleaner with perror()
-      printf("File opening for w ERROR !\n");
+      printf("All_received_msg File opening for w ERROR  !\n");
       //exit(1);
     } 
     else 

@@ -154,7 +154,7 @@ session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 # Define vrariable how would count the number of GPS Data
 Nbr_GPS_Data = 0
 # Define the number of Data you want to record in 1 min
-Nbr_Data_per_Minute = 12
+Nbr_Data_per_Minute = 4
 Time_between_each_recorded_data = int(60 / Nbr_Data_per_Minute)  # 60 because 1 min
 
 FIRST_TIME = True
@@ -166,7 +166,7 @@ Nbr_received_DATA = 0
 while Nbr_GPS_Data < 60 :
     try:
          # Go to the sender data folder 
-         os.chdir("/SolarLoon_Software/LORA_Sender")
+         os.chdir("/home/pi/SolarLoon_Software/LORA_Sender")
          if FIRST_TIME :
           subprocess.call(["./chisterapi", " Data are comming !"])
           FIRST_TIME = False
@@ -181,21 +181,16 @@ while Nbr_GPS_Data < 60 :
                  # We want to be sure that we receive all the GPS data !
                  # We will have to change the type of GPS Data in structure type
                  if Check_if_all_msg == False :
-                    if report.time :
-                      GPSTIME = str(report.time)
-                      Nbr_received_DATA +=1
-                    if report.speed :
-                      SPEED = str(report.speed * gps.MPS_TO_KPH)
-                      Nbr_received_DATA +=1
-                    if report.lon :
-                      LONGITUDE = str(report.lon)
-                      Nbr_received_DATA +=1
-                    if report.lat :
-                      LATITUDE = str(report.lat)
-                      Nbr_received_DATA +=1
-                    if report.alt :
-                      ALTITUDE = str(report.alt)
-                      Nbr_received_DATA +=1
+                    GPSTIME = str(report.time)
+                    Nbr_received_DATA +=1
+                    SPEED = str(report.speed * gps.MPS_TO_KPH)
+                    Nbr_received_DATA +=1
+                    LONGITUDE = str(report.lon)
+                    Nbr_received_DATA +=1
+                    LATITUDE = str(report.lat)
+                    Nbr_received_DATA +=1
+                    ALTITUDE = str(report.alt)
+                    Nbr_received_DATA +=1
                     if Nbr_received_DATA == 5 :
                       Check_if_all_msg = True
                       Nbr_received_DATA = 0

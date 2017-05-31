@@ -26,7 +26,7 @@ try :
     # The Adafruit_DHT librairy bring the Data of the DHT22 under the variable's name of 
     humidity, temperature = Adafruit_DHT.read_retry(DHTSensor, GPIO_PIN)
     # Now we have the Data, we record the temperature and the humidity on file.txt
-    os.chdir("/SolarLoon_Software/Captor/Data_Captor")  # Go to the recorded data folder 
+    os.chdir("/home/pi/SolarLoon_Software/Captor/Data_Captor")  # Go to the recorded data folder 
     with open("DHT22_Humidity.txt","a") as fichier :
       print >> fichier, humidity         # record humidity on file.txt
     with open("DHT22_Temperature.txt","a") as fichier2 :
