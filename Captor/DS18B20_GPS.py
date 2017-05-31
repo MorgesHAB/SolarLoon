@@ -54,7 +54,7 @@ try :
   # Go to the recorded data folder 
   os.chdir("/home/pi/SolarLoon_Software/Captor/Data_Captor")
   while Nbr_Data_Temperature < Nbr_Data_per_Minute :
-    #print(read_temp())       # print the temperature in terminal
+    #print(read_temp())
 	# Now we have the Data, we record the temperature and the humidity on file.txt
 	with open("DS18B20_Temperature.txt","a") as fichier :
         print >> fichier, read_temp()         # record temperature on file.txt
