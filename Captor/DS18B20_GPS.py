@@ -46,16 +46,16 @@ Time_between_each_recorded_data = int(60 / Nbr_Data_per_Minute)  # 60 because 1 
 session = gps.gps("localhost", "2947")
 session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 # Define a vrariables how would count the number of GPS Data
-NBr_GPS_Altitude_Data = 0
+Nbr_GPS_Altitude_Data = 0
 Nbr_GPS_Time_Data = 0
 
 # We have to shedule the captor in order to record "x" data in 1 minute and not more !
 try :
+  # Go to the recorded data folder 
+  os.chdir("/home/pi/SolarLoon_Software/Captor/Data_Captor")
   while Nbr_Data_Temperature < Nbr_Data_per_Minute :
     #print(read_temp())       # print the temperature in terminal
 	# Now we have the Data, we record the temperature and the humidity on file.txt
-    # Go to the recorded data folder 
-    os.chdir("/home/pi/SolarLoon_Software/Captor/Data_Captor")  
 	with open("DS18B20_Temperature.txt","a") as fichier :
         print >> fichier, read_temp()         # record temperature on file.txt
     # We want to record the Pi0 time when a DS18B20 data is recorded
@@ -67,16 +67,14 @@ try :
     Nbr_Data_Temperature +=1 
   # The GPS takes GPS data every secondes, so we take only 
   #the GPS data when a captor Data is recorded
-  while NBr_GPS_Altitude_Data and Nbr_GPS_Time_Data < 60 :
-    report = session.next()   # Wait the next TPV report
-    # Go to the recorded data folder 
-	os.chdir("/home/pi/SolarLoon_Software/Captor/Data_Captor")  
+  while Nbr_GPS_Altitude_Data and Nbr_GPS_Time_Data < 60 :
+    report = session.next()   # Wait the next TPV report 
     if report['class'] == 'TPV':
         if hasattr(report, 'alt'):    # if there's GPS altitude data
-            if NBr_GPS_Altitude_Data % Time_between_each_recorded_data == 0 :  # % = the rest of the division
+            if Nbr_GPS_Altitude_Data % Time_between_each_recorded_data == 0 :  # % = the rest of the division
                with open("Altitude_GPS_Captor.txt","a") as fichier3 :
                  print >> fichier3, report.alt    # record altitude on file.txt
-            NBr_GPS_Altitude_Data +=1    
+            Nbr_GPS_Altitude_Data +=1    
         if hasattr(report, 'time'):   # if there's GPS time data
             if Nbr_GPS_Time_Data % Time_between_each_recorded_data == 0 :
                with open("Time_GPS_Captor.txt","a") as fichier5 :
