@@ -14,15 +14,8 @@ Nbr_GPS_Data = 0
 # Define the number of Data you want to record in 1 min
 Nbr_Data_per_Minute = 6
 Time_between_each_recorded_data = int(60 / Nbr_Data_per_Minute)  # 60 because 1 min
-
-# As we don't see if the camera is capturing a photo, we will 
-# shedule a LED that will light on when an altitude data is
-# recording on file.txt
-
-# So we setup the GPIO of the LED
-GPIO.setmode(GPIO.BCM)
-GPIO_PIN = 26
-GPIO.setup(GPIO_PIN, GPIO.OUT)  # define this pin as an output
+Check_if_all_msg = False
+Nbr_received_DATA = 0
 
 # Setup the LoRa GPS Hat    
 # Read on the localhost 2947 port (gpsd)
@@ -38,48 +31,45 @@ try :
      # The GPS takes GPS data every secondes, so we take only the GPS data
      # every "x" secondes
      if report['class'] == 'TPV':
-         # if there's GPS time data
-         if hasattr(report, 'time' and 'speed' and 'lon' and 'lat' and 'alt'):
-            if Nbr_GPS_Data % Time_between_each_recorded_data == 0 : # % = the rest of the division
-               # We want to be sure that we receive all the GPS data !
-               # We will have to change the type of GPS Data in structure type
-               if Check_if_all_msg == false :
-                  if report.time :
-                    GPSTIME = str(report.time)
-                    Nbr_received_DATA +=1
-                  if report.speed :
-                    SPEED = str(report.speed * gps.MPS_TO_KPH)
-                    Nbr_received_DATA +=1
-                  if report.lon :
-                    LONGITUDE = str(report.lon)
-                    Nbr_GPS_Data +=1
-                  if report.lat :
-                    LATITUDE = str(report.lat)
-                    Nbr_received_DATA +=1
-                  if report.alt :
-                    ALTITUDE = str(report.alt)
-                    Nbr_received_DATA +=1
-                  if Nbr_received_DATA == 5 :
-                    Check_if_all_msg = True
-                    Nbr_received_DATA = 0
-                  if Nbr_received_DATA != 5 :
-                      Nbr_received_DATA = 0
-                if Check_if_all_msg == True :
-                   with open("Time.txt","a") as fichier :
-                      print >> fichier, GPSTIME     # record time on file.txt
-                   with open("Speed.txt","a") as fichier2 :
-                      print >> fichier2, SPEED
-                   with open("Altitude.txt","a") as fichier3 :
-                      print >> fichier3, ALTITUDE
-                   with open("Longitude.txt","a") as fichier4 :
-                      print >> fichier4, LONGITUDE
-                   with open("Latitude.txt","a") as fichier5 :
-                      print >> fichier5, LATITUDE
-                   GPIO.output(GPIO_PIN, GPIO.HIGH)
-                   time.sleep(2)
-                   GPIO.output(GPIO_PIN, GPIO.LOW)
-                   GPIO.cleanup()
-            Nbr_GPS_Data +=1
+      # if there's GPS time data
+      if hasattr(report, 'time' and 'speed' and 'lon' and 'lat' and 'alt'): 
+        if Nbr_GPS_Data % Time_between_each_recorded_data == 0 : # % = the rest of the division
+           # We want to be sure that we receive all the GPS data !
+           # We will have to change the type of GPS Data in structure type
+           if Check_if_all_msg == False :
+              if hasattr(report, 'time') :
+                GPSTIME = str(report.time)
+                Nbr_received_DATA +=1
+              if hasattr(report, 'speed') :
+                SPEED = str(report.speed * gps.MPS_TO_KPH)
+                Nbr_received_DATA +=1
+              if hasattr(report, 'lon') :
+                LONGITUDE = str(report.lon)
+                Nbr_received_DATA +=1
+              if hasattr(report, 'lat') :
+                LATITUDE = str(report.lat)
+                Nbr_received_DATA +=1
+              if hasattr(report, 'alt') :
+                ALTITUDE = str(report.alt)
+                Nbr_received_DATA +=1
+              if Nbr_received_DATA == 5 :
+                Check_if_all_msg = True
+                Nbr_received_DATA = 0
+              if Nbr_received_DATA != 5 :
+                Nbr_received_DATA = 0
+              if Check_if_all_msg == True :
+                 with open("Time.txt","a") as fichier :
+                    print >> fichier, GPSTIME     # record time on file.txt
+                 with open("Speed.txt","a") as fichier2 :
+                    print >> fichier2, SPEED
+                 with open("Altitude.txt","a") as fichier3 :
+                    print >> fichier3, ALTITUDE
+                 with open("Longitude.txt","a") as fichier4 :
+                    print >> fichier4, LONGITUDE
+                 with open("Latitude.txt","a") as fichier5 :
+                    print >> fichier5, LATITUDE
+                 Check_if_all_msg = False
+        Nbr_GPS_Data +=1
 
 except KeyError:
    pass

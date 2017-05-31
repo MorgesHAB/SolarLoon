@@ -174,8 +174,8 @@ while Nbr_GPS_Data < 60 :
          # The GPS takes GPS data every secondes, so we send only the GPS data
          # every "x" secondes
          if report['class'] == 'TPV':
-             # if there's GPS time data
-             if hasattr(report, 'time' and 'speed' and 'lon' and 'lat' and 'alt'):  
+           # if there's GPS time data
+           if hasattr(report, 'time' and 'speed' and 'lon' and 'lat' and 'alt'):  
                # Select only the wanted data
                if Nbr_GPS_Data % Time_between_each_recorded_data == 0 :
                  # We want to be sure that we receive all the GPS data !
@@ -206,7 +206,7 @@ while Nbr_GPS_Data < 60 :
                       (temperature,pressure) = readBmp180()
                       PRESSURE = str(pressure)
                       msg_Pressure = str(PRESSURE+" hPa")
-
+                      # The function read_temp() bring the Data of the DS18B20
                       TEMPERATURE = str(read_temp())
                       msg_Temperature = TEMPERATURE+" °C"
                       # We send the GPS Data to the programme C++ how send the message by radio
@@ -214,8 +214,27 @@ while Nbr_GPS_Data < 60 :
                       subprocess.call(["./chisterapi", GPSTIME, SPEED, LONGITUDE, LATITUDE, ALTITUDE, msg_Temperature, msg_Pressure, msg_Humidity])
                       Check_if_all_msg = False
                Nbr_GPS_Data +=1
+         # If there's no GPS (as from 18 km altitude) we still want to send captor data 
+         else :
+           # The Adafruit_DHT librairy bring the Data of the DHT22 under the variable's name of 
+           humidity, temperature = Adafruit_DHT.read_retry(DHTSensor, GPIO_PIN)
+           HUMIDITY = str(humidity)
+           msg_Humidity = str(HUMIDITY+" %")
+           # The function readBmp180() bring the Data of the BMP180 
+           # under the variable's name of 
+           (temperature,pressure) = readBmp180()
+           PRESSURE = str(pressure)
+           msg_Pressure = str(PRESSURE+" hPa")
+           # The function read_temp() bring the Data of the DS18B20
+           TEMPERATURE = str(read_temp())
+           msg_Temperature = TEMPERATURE+" °C"
+           # We send the GPS Data to the programme C++ how send the message by radio
+           # Warning, the order GPSTIME, SPEED, ... plays a role 
+           subprocess.call(["./chisterapi", "There's no more GPS Data !"])
+           subprocess.call(["./chisterapi", msg_Temperature, msg_Pressure])
+           subprocess.call(["./chisterapi", msg_Humidity])
+           time.sleep(Time_between_each_recorded_data)
              
-
     except KeyError:
        pass
     except KeyboardInterrupt:
