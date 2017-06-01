@@ -18,9 +18,9 @@ RH_RF95 rf95;
 #define LATITUDE 3
 #define ALTITUDE 4
 
-#define msg_Temperature 0
-#define msg_Pressure 0
-#define msg_Humidity 0
+#define msg_Temperature 5
+#define msg_Pressure 6
+#define msg_Humidity 7
 
 #define NODE_NUMBER 8
 // string NODE_NUMBER = "MorgesHAB"
@@ -97,7 +97,7 @@ int main(int argc, char **argv)
   for(int i = 1; i<argc; i++) { // Skip 0 which is program itself
     writeMHPacket(i-1, argv[i]);
     sigalarm_handler(1); // Fake a signal
-    readMHPacket(&msg[0]);
+   // readMHPacket(&msg[0]);
   }
 
     return EXIT_SUCCESS;

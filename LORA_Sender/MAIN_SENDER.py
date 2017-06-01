@@ -181,16 +181,26 @@ while Nbr_GPS_Data < 60 :
                  # We want to be sure that we receive all the GPS data !
                  # We will have to change the type of GPS Data in structure type
                  if Check_if_all_msg == False :
-                    GPSTIME = str(report.time)
-                    Nbr_received_DATA +=1
-                    SPEED = str(report.speed * gps.MPS_TO_KPH)
-                    Nbr_received_DATA +=1
-                    LONGITUDE = str(report.lon)
-                    Nbr_received_DATA +=1
-                    LATITUDE = str(report.lat)
-                    Nbr_received_DATA +=1
-                    ALTITUDE = str(report.alt)
-                    Nbr_received_DATA +=1
+                    if hasattr(report, 'time') :
+                      GPSTIME = str(report.time)
+                      Nbr_received_DATA +=1
+                    if hasattr(report, 'speed') :
+                      SPEED = str(report.speed * gps.MPS_TO_KPH)
+                      Nbr_received_DATA +=1
+                    if hasattr(report, 'lon') :
+                      LONGITUDE = str(report.lon)
+                      Nbr_received_DATA +=1
+                    if hasattr(report, 'lat') :
+                      LATITUDE = str(report.lat)
+                      Nbr_received_DATA +=1
+                    if hasattr(report, 'alt') :
+                      ALTITUDE = str(report.alt)
+                      Nbr_received_DATA +=1
+                    if Nbr_received_DATA == 5 :
+                      Check_if_all_msg = True
+                      Nbr_received_DATA = 0
+                    if Nbr_received_DATA != 5 :
+                      Nbr_received_DATA = 0
                     if Nbr_received_DATA == 5 :
                       Check_if_all_msg = True
                       Nbr_received_DATA = 0
@@ -214,27 +224,7 @@ while Nbr_GPS_Data < 60 :
                       subprocess.call(["./chisterapi", GPSTIME, SPEED, LONGITUDE, LATITUDE, ALTITUDE, msg_Temperature, msg_Pressure, msg_Humidity])
                       Check_if_all_msg = False
                Nbr_GPS_Data +=1
-         # If there's no GPS (as from 18 km altitude) we still want to send captor data 
-         else :
-           # The Adafruit_DHT librairy bring the Data of the DHT22 under the variable's name of 
-           humidity, temperature = Adafruit_DHT.read_retry(DHTSensor, GPIO_PIN)
-           HUMIDITY = str(humidity)
-           msg_Humidity = str(HUMIDITY+" %")
-           # The function readBmp180() bring the Data of the BMP180 
-           # under the variable's name of 
-           (temperature,pressure) = readBmp180()
-           PRESSURE = str(pressure)
-           msg_Pressure = str(PRESSURE+" hPa")
-           # The function read_temp() bring the Data of the DS18B20
-           TEMPERATURE = str(read_temp())
-           msg_Temperature = TEMPERATURE+" °C"
-           # We send the GPS Data to the programme C++ how send the message by radio
-           # Warning, the order GPSTIME, SPEED, ... plays a role 
-           subprocess.call(["./chisterapi", "There's no more GPS Data !"])
-           subprocess.call(["./chisterapi", msg_Temperature, msg_Pressure])
-           subprocess.call(["./chisterapi", msg_Humidity])
-           time.sleep(Time_between_each_recorded_data)
-             
+        
     except KeyError:
        pass
     except KeyboardInterrupt:
