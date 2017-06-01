@@ -46,8 +46,8 @@ Time_between_each_recorded_data = int(60 / Nbr_Data_per_Minute)  # 60 because 1 
 session = gps.gps("localhost", "2947")
 session.stream(gps.WATCH_ENABLE | gps.WATCH_NEWSTYLE)
 # Define a vrariables how would count the number of GPS Data
-Nbr_GPS_Altitude_Data = 0
-Nbr_GPS_Time_Data = 0
+Nbr_GPS_Altitude_Data = 1
+Nbr_GPS_Time_Data = 1
 
 # We have to shedule the captor in order to record "x" data in 1 minute and not more !
 try :
@@ -67,7 +67,7 @@ try :
     Nbr_Data_Temperature +=1 
   # The GPS takes GPS data every secondes, so we take only 
   #the GPS data when a captor Data is recorded
-  while Nbr_GPS_Altitude_Data and Nbr_GPS_Time_Data < 60 :
+  while Nbr_GPS_Altitude_Data and Nbr_GPS_Time_Data < 61 :
     report = session.next()   # Wait the next TPV report 
     if report['class'] == 'TPV':
         if hasattr(report, 'alt'):    # if there's GPS altitude data
