@@ -44,8 +44,6 @@ try :
 		 GPIO.output(GPIO_PIN, GPIO.LOW)
 		 time.sleep(Time_between_each_recorded_pictures - Time_the_LED_is_on)
 		 Nbr_Pictures +=1
-		 if Nbr_Pictures == Nbr_Pictures_per_Minute - 1 :
-		   	GPIO.cleanup()
 
 except KeyboardInterrupt :
   print("Exit")
