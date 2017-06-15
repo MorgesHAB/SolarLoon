@@ -11,7 +11,7 @@ parois=30; // Epaisseur de la parois  de la boite ou sero fixé le système
 larg=200; // Largeur intérieur de la boite 
 daxes=6; // Diamètre de l'ouverture nécessaire pour passer un axe (en l'occurence un écrou de M5)
 epstruct = 3; // Epaisseur des tructures fines (cadres)
-deltap = 15; // Distance entre les structures (d au parois pour anneau, puis distance caisse à anneau)
+deltap = 25; // Distance entre les structures (d au parois pour anneau, puis distance caisse à anneau)
 larg_anneau = 30; // Largeur de l'anneau azimutal
 spot_lo = 68.3;
 spot_la = 51.3;
@@ -170,14 +170,14 @@ difference() {
                 #cylinder(h=100, d=daxes, center=true);
             }
             
-    translate([0,d_ext_anneau/3,larg_anneau-(daxes/2+epstruct)])
+    translate([0,d_ext_anneau/2,larg_anneau-(daxes/2+epstruct)])
         rotate([90,0,0])
             if(mode_print) {            
                 cylinder(h=100, d=daxes, center=true);
             } else {
                 #cylinder(h=100, d=daxes, center=true);
             }
-    translate([0,-(d_ext_anneau/3),larg_anneau-(daxes/2+epstruct)])
+    translate([0,-(d_ext_anneau/2),larg_anneau-(daxes/2+epstruct)])
         rotate([90,0,0])
             if(mode_print) {
                 cylinder(h=100, d=daxes, center=true);
