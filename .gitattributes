@@ -18,4 +18,3 @@
 
 # project language
 *.java linguist-detectable=true
-*.py linguist-detectable=true
