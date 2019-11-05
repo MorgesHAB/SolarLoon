@@ -15,3 +15,7 @@
 *.PDF	 diff=astextplain
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
+
+# project language
+*.java linguist-detectable=true
+*.py linguist-detectable=true
